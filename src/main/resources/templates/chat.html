@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Chat</title>
+    <script th:src="@{/js/plugins/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/plugins/sockjs.js}"></script>
+    <script th:src="@{/js/plugins/stomp.js}"></script>
+    <script th:src="@{/js/chat.js}"></script>
+    <style type="text/css">
+        .content {
+            width: 400px;
+            height: 400px;
+            padding: 10px 10px;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #000000;
+            float: left;
+            overflow-y:scroll;
+            overflow-x:hidden;
+        }
+        .input {
+            width: 542px;
+            height: 100px;
+            padding: 10px 10px;
+        }
+        .right {
+            width: 100px;
+            height: 400px;
+            padding: 10px 10px;
+            border-width: 1px;
+            float: left;
+        }
+        .all {
+            width: 542px;
+            height: 422px;
+            padding: 10px 10px;
+        }
+    </style>
+</head>
+<body>
+    <a th:href="@{/logout}">logout</a>
+    <div class="all">
+        <div class="content"></div>
+        <div class="right">
+            <table>
+                <tr>
+                    <td>
+                        <a th:href="@{/chat}">open</a>
+                    </td>
+                </tr>
+                <tr th:each="name: ${usernameList}">
+                    <td th:if="${name} != ${username}">
+                        <a th:text="${name}" th:href="@{${'/chat/' + name}}"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="input">
+        <textarea name="message" id="message" rows="4" cols="66" style="resize:none"></textarea>
+        <button id="send">send</button>
+    </div>
+    <script th:inline="javascript">
+//        var username = [[${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}]];
+        var username = [[${username}]];
+        var recipient = [[${recipient}]];
+    </script>
+</body>
+</html>
