@@ -7,7 +7,9 @@
     <script th:src="@{/js/plugins/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/plugins/sockjs.js}"></script>
     <script th:src="@{/js/plugins/stomp.js}"></script>
+    <script th:src="@{/js/plugins/jquery.lightbox-0.5.js}"></script>
     <script th:src="@{/js/chat.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.lightbox-0.5.css}" media="screen" />
     <style type="text/css">
         .content {
             width: 400px;
@@ -20,29 +22,47 @@
             overflow-y:scroll;
             overflow-x:hidden;
         }
-        .input {
+        .down {
             width: 542px;
-            height: 100px;
+            height: 120px;
             padding: 10px 10px;
         }
         .right {
             width: 100px;
-            height: 400px;
+            height: 402px;
             padding: 10px 10px;
             border-width: 1px;
             float: left;
         }
-        .all {
+        .up {
             width: 542px;
             height: 422px;
             padding: 10px 10px;
         }
+        .input {
+            width: 422px;
+            float: left;
+        }
+        .button {
+            width: 100px;
+            float: left;
+            height: 66px;
+            padding: 0px 10px;
+        }
+        .header {
+            width: 542px;
+            height: 20px;
+            padding: 0px 10px;
+        }
     </style>
 </head>
 <body>
-    <a th:href="@{/logout}">logout</a>
-    <div class="all">
-        <div class="content"></div>
+    <div class="header">
+        <span style="width:422px;text-align:center;display:block;float: left;">[[${recipient == null ? 'open channel' : 'talk with ' + recipient}]]</span>
+        <a th:href="@{/logout}">logout</a>
+    </div>
+    <div class="up">
+        <div class="content" id="plane"></div>
         <div class="right">
             <table>
                 <tr>
@@ -58,9 +78,17 @@
             </table>
         </div>
     </div>
-    <div class="input">
-        <textarea name="message" id="message" rows="4" cols="66" style="resize:none"></textarea>
-        <button id="send">send</button>
+    <div class="down">
+        <div class="input">
+            <form id="inputForm">
+                <textarea name="message" id="message" style="resize:none;width:100%;height:66px;margin:0; padding:0;"></textarea>
+                <input type="file" name="img" id="img">
+                <input type="hidden" th:value="${recipient}" name="recipient">
+            </form>
+        </div>
+        <div class="button">
+            <button id="send" style="width:110px;height:68px;">send</button>
+        </div>
     </div>
     <script th:inline="javascript">
 //        var username = [[${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}]];

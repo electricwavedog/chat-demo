@@ -1,5 +1,7 @@
 package com.example.chat.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +14,8 @@ public class MessageDetail implements Serializable {
     private String message;
 
     private String recipient;
+
+    private MultipartFile img;
 
     public String getMessage() {
         return message;
@@ -27,5 +31,13 @@ public class MessageDetail implements Serializable {
 
     public void setRecipient(String recipient) {
         this.recipient = recipient;
+    }
+
+    public MultipartFile getImg() {
+        return img;
+    }
+
+    public void setImg(MultipartFile img) {
+        this.img = img;
     }
 }

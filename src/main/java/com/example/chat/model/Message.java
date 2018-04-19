@@ -1,7 +1,10 @@
 package com.example.chat.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author liuyiqian
@@ -15,22 +18,30 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String message;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private String imgPath;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date sendTime;
+
+    @OneToOne
     @JoinColumn(name = "from_user_id")
     private User fromUser;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "to_user_id")
     private User ToUser;
 
     public Message() {
     }
 
-    public Message(String message, User fromUser, User toUser) {
+    public Message(String message, String imgPath, Date sendTime, User fromUser, User toUser) {
         this.message = message;
+        this.imgPath = imgPath;
+        this.sendTime = sendTime;
         this.fromUser = fromUser;
         ToUser = toUser;
     }
@@ -65,5 +76,21 @@ public class Message implements Serializable {
 
     public void setToUser(User toUser) {
         ToUser = toUser;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public Date getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
     }
 }

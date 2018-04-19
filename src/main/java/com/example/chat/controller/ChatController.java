@@ -1,7 +1,6 @@
 package com.example.chat.controller;
 
 import com.example.chat.model.Message;
-import com.example.chat.model.User;
 import com.example.chat.model.dto.MessageDetail;
 import com.example.chat.service.message.MessageService;
 import com.example.chat.service.user.UserService;
@@ -11,6 +10,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -67,5 +67,11 @@ public class ChatController {
         modelAndView.addObject("username", principal.getName());
         modelAndView.setViewName("chat");
         return modelAndView;
+    }
+
+    @PostMapping("/image")
+    public void upload(Principal principal, MessageDetail messageDetail) {
+        Message message = messageService.addMessage(messageDetail, principal.getName());
+        simpMessagingTemplate.convertAndSend("/topic/image", message);
     }
 }
